@@ -16,7 +16,6 @@ The brain behind `RebornPR.minehut.gg`
 
 #### Player Commands
  - [ ] `/autominer` | `rpr.commands.autominer`
-
  - [ ] `/stats [<offline player>]` | `<none>`
  - [ ] `/cell [<text="gui">] [<optional args>]` | `<none>`
  - [ ] `/quests` | `<none>`
