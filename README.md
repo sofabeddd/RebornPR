@@ -7,12 +7,12 @@ The brain behind `RebornPR.minehut.gg`
 
 #### Staff Commands
  - [ ] `/rprgive <player> <item> [<amount>] [<virtual>]` | `rpr.commands.give`
- - [ ] `/chat <text>` | `rpr.chat.manage`
+ - [ ] `/chat <text> [<message>]` | `rpr.chat.manage`
 
 
 #### Premium Commands
- - [ ] `/rename` | `rpr.item.rename`
- - [ ] `/nickname` | `rpr.nickname.set`
+ - [ ] `/rename <message>` | `rpr.item.rename`
+ - [ ] `/nickname <text>` | `rpr.nickname.set`
 
 #### Player Commands
  - [ ] `/autominer` | `rpr.commands.autominer`
