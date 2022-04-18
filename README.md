@@ -3,7 +3,7 @@ The brain behind `RebornPR.minehut.gg`
 
 ## TO-DO Checklist
 ### commands
-`command` |  `permission required`
+`Format: <command> | <permmission>`
 
 #### Staff Commands
  - [ ] `/rprgive <player> <item> [<amount>] [<virtual>]` | `rpr.commands.give`
