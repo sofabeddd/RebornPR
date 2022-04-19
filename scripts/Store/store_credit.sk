@@ -1,0 +1,113 @@
+# -------------------------------------------------
+# FUNCTIONS
+
+function set_store_credit(player: player, amount: number):
+    set {store_credit::%uuid of {_player}%} to {_amount}
+
+# -------------------------------------------------
+
+function get_store_credit(player: player) :: number:
+	return {store_credit::%uuid of {_player}%}
+
+# -------------------------------------------------
+
+function change_store_credit(player: player, amount: number):
+	add {_amount} to {store_credit::%uuid of {_player}%}
+	
+	send "&e&lStore&6&lCredit &f&l| &a$%{_amount}% &fhas been deposited into your store credit. Your balance is now &a$%get_store_credit({_player})%&f." to {_player} if {_amount} is greater than 0
+	send "&e&lStore&6&lCredit &f&l| &c$%-1*{_amount}% &fhas been withdrawn from your store credit. Your balance is now &a$%get_store_credit({_player})%&f." to {_player} if {_amount} is less than 0
+
+# -------------------------------------------------
+
+function create_uid() :: integer:
+	return random integer between 100000000000 and 999999999999
+
+# -------------------------------------------------
+
+function create_giftcard(player: player, worth: number):
+	
+	set {_uid} to create_uid()
+	add {_uid} to {valid_code_values::*}
+	set {valid_codes::%{_uid}%} to {_worth}
+	
+	give {_player} glowing emerald named "&a&l&o$%{_worth}% &f&l&oGift Card &7(right-click)" with lore "%nl%&7&oWhen redeemed, this will add &a$%{_worth}%%nl%&7&oto your store credit balance.%nl%%nl%&8%{_uid}%"
+	
+	change_store_credit({_player}, -1*{_worth})
+
+# -------------------------------------------------
+
+function list_giftcodes(player: player):
+	send "&e&lStore&6&lCredit &f&l| &fValid giftcodes:" to {_player}
+	send "" to {_player}
+	if size of {valid_code_values::*} is 0:
+		send "&cno gift codes are currently active." to {_player}
+		
+	loop {valid_code_values::*}:
+		send formatted "&f<tooltip:&f&lWorth: &a$%{valid_codes::%{valid_code_values::%loop-index%}%}%>%{valid_code_values::%loop-index%}%" to {_player}
+	
+	send "" to {_player}
+		
+# -------------------------------------------------
+# COMMANDS
+
+command /storecredit <text> [<offline player=%player%>] [<number=0>]:
+	permission: "rpr.store.credit.admin"
+	trigger:
+		if arg-1 is "balance.set":
+			set_store_credit(arg-2, arg-3)
+			send "&e&lStore&6&lCredit &f&l| &fSet %arg-2%'s store credit to &a$%arg-3%&f."
+			
+		if arg-1 is "balance.get":
+			send "&e&lStore&6&lCredit &f&l| &f%arg-2% has &a$%get_store_credit(arg-2)% &fstore credit."
+			
+		if arg-1 is "balance.change":
+			change_store_credit(arg-2, arg-3)
+			send "&e&lStore&6&lCredit &f&l| &f%arg-2%'s store credit has been changed to &a$%get_store_credit(arg-2)%&f."
+			
+		if arg-1 is "giftcodes.list":
+			list_giftcodes(player)
+			
+		if arg-1 is "giftcodes.clear":
+			clear {valid_codes::*}
+			clear {valid_code_values::*}
+			send "&e&lStore&6&lCredit &f&l| &fCleared all giftcodes."
+
+# -------------------------------------------------
+
+command /withdrawcredit <number>:
+	trigger:
+		if arg-1 is less than or equal to 0:
+			send "&e&lStore&6&lCredit &f&l| &cError: Invalid amount."
+			stop
+		
+		if arg-1 is greater than get_store_credit(player):
+			send "&e&lStore&6&lCredit &f&l| &cError: Insufficient funds."
+
+		else:
+			create_giftcard(player, arg-1)
+
+# -------------------------------------------------
+# TAB COMPLETION
+
+tab complete of "/storecredit":
+	set tab completions for position 1 to "balance.set", "balance.get", "balance.change", "giftcodes.list", "giftcodes.clear" if player has permission "rpr.store.credits.admin"
+
+# -------------------------------------------------
+# PLAYER EVENTS
+
+on right click holding emerald:
+	stop if player's tool's name does not contain "&f&l&oGift Card"
+	
+	set {_code} to uncolored line 5 of player's tool's lore parsed as integer
+	
+	if {valid_codes::%{_code}%} is set:
+		change_store_credit(player, {valid_codes::%{_code}%})
+		clear {valid_codes::%{_code}%}
+		remove {_code} from {valid_code_values::*}
+		remove 1 of player's tool from player's tool
+		
+	else:
+		send "&e&lStore&6&lCredit &f&l| &cError: Invalid giftcode."
+		
+	
+	
