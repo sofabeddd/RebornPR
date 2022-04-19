@@ -32,10 +32,10 @@ function gui_background(rows: integer) :: integers:
 # COMMANDS
 
 command /store [<text="menu">]:
-	trigger:
-		if arg-1 is "menu":
+  trigger:
+    if arg-1 is "menu":
       create gui with virtual chest with 6 rows named "&6&lReborn&e&lStore":                                
         format gui slot gui_border(6) with create_item(black stained glass pane)
         format gui slot gui_background(6) with create_item(gray stained glass pane)
 						
-			show last gui to player
+    show last gui to player
