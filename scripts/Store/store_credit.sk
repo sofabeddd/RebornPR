@@ -1,15 +1,13 @@
-# -------------------------------------------------
+
 # FUNCTIONS
 
 function set_store_credit(player: player, amount: number):
     set {store_credit::%uuid of {_player}%} to {_amount}
-
-# -------------------------------------------------
+    
 
 function get_store_credit(player: player) :: number:
 	return {store_credit::%uuid of {_player}%}
 
-# -------------------------------------------------
 
 function change_store_credit(player: player, amount: number):
 	add {_amount} to {store_credit::%uuid of {_player}%}
@@ -17,12 +15,10 @@ function change_store_credit(player: player, amount: number):
 	send "&e&lStore&6&lCredit &f&l| &a$%{_amount}% &fhas been deposited into your store credit. Your balance is now &a$%get_store_credit({_player})%&f." to {_player} if {_amount} is greater than 0
 	send "&e&lStore&6&lCredit &f&l| &c$%-1*{_amount}% &fhas been withdrawn from your store credit. Your balance is now &a$%get_store_credit({_player})%&f." to {_player} if {_amount} is less than 0
 
-# -------------------------------------------------
 
 function create_uid() :: integer:
 	return random integer between 100000000000 and 999999999999
 
-# -------------------------------------------------
 
 function create_giftcard(player: player, worth: number):
 	
@@ -34,7 +30,6 @@ function create_giftcard(player: player, worth: number):
 	
 	change_store_credit({_player}, -1*{_worth})
 
-# -------------------------------------------------
 
 function list_giftcodes(player: player):
 	send "&e&lStore&6&lCredit &f&l| &fValid giftcodes:" to {_player}
@@ -46,8 +41,8 @@ function list_giftcodes(player: player):
 		send formatted "&f<tooltip:&f&lWorth: &a$%{valid_codes::%{valid_code_values::%loop-index%}%}%>%{valid_code_values::%loop-index%}%" to {_player}
 	
 	send "" to {_player}
-		
-# -------------------------------------------------
+
+
 # COMMANDS
 
 command /storecredit <text> [<offline player=%player%>] [<number=0>]:
@@ -72,7 +67,6 @@ command /storecredit <text> [<offline player=%player%>] [<number=0>]:
 			clear {valid_code_values::*}
 			send "&e&lStore&6&lCredit &f&l| &fCleared all giftcodes."
 
-# -------------------------------------------------
 
 command /withdrawcredit <number>:
 	trigger:
@@ -86,13 +80,13 @@ command /withdrawcredit <number>:
 		else:
 			create_giftcard(player, arg-1)
 
-# -------------------------------------------------
+
 # TAB COMPLETION
 
 tab complete of "/storecredit":
 	set tab completions for position 1 to "balance.set", "balance.get", "balance.change", "giftcodes.list", "giftcodes.clear" if player has permission "rpr.store.credits.admin"
 
-# -------------------------------------------------
+
 # PLAYER EVENTS
 
 on right click holding emerald:
@@ -108,6 +102,5 @@ on right click holding emerald:
 		
 	else:
 		send "&e&lStore&6&lCredit &f&l| &cError: Invalid giftcode."
-		
-	
-	
+
+
