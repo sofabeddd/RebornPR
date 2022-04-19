@@ -38,4 +38,4 @@ command /store [<text="menu">]:
         format gui slot gui_border(6) with create_item(black stained glass pane)
         format gui slot gui_background(6) with create_item(gray stained glass pane)
 						
-    show last gui to player
+      show last gui to player
