@@ -6,7 +6,7 @@ The brain behind `RebornPR.minehut.gg`
 `Format: <command> | <permmission>`
 
 #### Staff Commands
- - [ ] `/rprgive <player> <item> [<amount>] [<virtual>]` | `rpr.commands.give`
+ - [ ] `/rprgive <player> <item> [<integer=1>] [<boolean=false>]` | `rpr.commands.give`
  - [ ] `/chat <text> [<message>]` | `rpr.chat.manage`
 
 
@@ -16,11 +16,10 @@ The brain behind `RebornPR.minehut.gg`
 
 #### Player Commands
  - [ ] `/autominer` | `rpr.commands.autominer`
- - [ ] `/stats [<offline player>]` | `<none>`
+ - [ ] `/stats [<offline player=%player%>]` | `<none>`
  - [ ] `/cell [<text="gui">] [<optional args>]` | `<none>`
  - [ ] `/quests` | `<none>`
  - [ ] `/enchants` | `<none>`
- - [ ] `/stats [<offline player>]` | `<none>`
  - [ ] `/playtime` | `<none>`
  - [ ] `/crates` | `<none>`
  - [ ] `/wizard` | `<none>`
