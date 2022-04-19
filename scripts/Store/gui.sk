@@ -1,7 +1,7 @@
 
 # FUNCTIONS
 
-function item(type: item, name: text="&0", lore: text="none", glowing: boolean=false, count: integer=1) :: itemstack:
+function create_item(type: item, name: text="&0", lore: text="none", glowing: boolean=false, count: integer=1) :: itemstack:
         set {_item} to {_type}
         set the name of {_item} to {_name}
         set the lore of {_item} to {_lore} if {_lore} is not "none"
@@ -34,5 +34,5 @@ command /store [<text="menu">]:
         trigger:
                 if arg-1 is "menu":
                         create gui with 6 rows named "&6&lReborn&e&lStore":                                
-                                format gui slot gui_border(6) with item(black stained glass pane)
-                                format gui slot gui_background(6) with item(gray stained glass pane)
+                                format gui slot gui_border(6) with create_item(black stained glass pane)
+                                format gui slot gui_background(6) with create_item(gray stained glass pane)
